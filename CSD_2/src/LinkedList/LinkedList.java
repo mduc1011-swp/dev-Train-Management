@@ -85,11 +85,5 @@ public class LinkedList<E extends Comparable<E>> {
             head = newNode;
         }
     }
-    public E removeFirst(){
-        
-    }
-    public E getFirst(){
-        return head.info;
-    }
-
+    
 }
