@@ -4,30 +4,30 @@
  */
 package BSTree;
 
-import Entity.Train;
+import Model.Model;
 
 /**
  *
- * @author phank
+ * @author iamwu
  */
-public class TrainNode {
+public class Node {
+    public Model info;
+    public Node left;
+    public Node right;
 
-    Train info;
-    TrainNode left, right;
-
-    public TrainNode() {
-    }
-    public TrainNode(Train info, TrainNode left, TrainNode right) {
+    Node(Model info, Node left, Node right) {
         this.info = info;
         this.left = left;
         this.right = right;
     }
-
-    public TrainNode(Train x) {
-        info = x;
-        left = right = null;
+    
+    Node(Model info) {
+        this(info,null,null);
     }
-    public Train getInfo() {
+
+    public Model getInfo() {
         return info;
     }
+    
+    
 }

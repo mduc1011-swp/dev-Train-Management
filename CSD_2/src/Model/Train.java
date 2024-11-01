@@ -2,13 +2,14 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Main.java to edit this template
  */
-package Entity;
+package Model;
+
 
 /**
  *
  * @author phank
  */
-public class Train {
+public class Train extends Model{
     private String tcode;
     private String name;
     private String dstation;
@@ -87,6 +88,9 @@ public class Train {
     public void setBooked(int booked) {
         this.booked = booked;
     }
+    public int getRemainSeat(){
+        return getSeat()-getBooked();
+    }
 
     public double getAtime() {
         return atime;
@@ -106,6 +110,9 @@ public class Train {
     }
     
     
+    public String getKey() {
+        return tcode;
+    }
     
     
     

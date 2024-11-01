@@ -1,4 +1,5 @@
-package Entity;
+package Model;
+
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -10,7 +11,7 @@ package Entity;
  *
  * @author ASUS
  */
-public class Passenger {
+public class Passenger extends Model {
     private String pcode;
     private String name;
     private String phone;
@@ -59,5 +60,9 @@ public class Passenger {
     
     public int compareTo(Passenger other) {
         return this.pcode.compareTo(other.pcode);
+    }
+    
+    public String getKey() {
+        return pcode;
     }
 }

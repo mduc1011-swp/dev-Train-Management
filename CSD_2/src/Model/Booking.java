@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package Entity;
+package Model;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -16,15 +16,16 @@ public class Booking {
     private String tcode;
     private String pcode;
     private Date odate;
-    private Date paidDate;
+    private int paidDate;
     private int seat;
+    SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
 
     public Booking(String tcode, String pcode, int seat) {
         this.tcode = tcode;
         this.pcode = pcode;
         this.seat = seat;
         this.odate = new Date();
-        this.paidDate = null;
+        this.paidDate = paidDate;
     }
 
     public String getTcode() {
@@ -37,17 +38,15 @@ public class Booking {
 
     // Check whether paidDate has been paid or not (if paidDate is different from null, it means paid)
     public boolean isPaid() {
-        return this.paidDate != null;
+        return this.paidDate != 0;
     }
 
-    public Date getPaidDate() {
+    public int getPaidDate() {
         return this.paidDate;
     }
 
-    // Setter for settlement date (set settlement date to current date)
-    // Lối ngày trả bị lấy giá trị ngày mới khi load lại
-    public void setPaidDate() {
-        this.paidDate = new Date();
+    public void setPaidDate(int paidDate) {
+        this.paidDate = paidDate;
     }
 
     public int getSeat() {
@@ -58,11 +57,16 @@ public class Booking {
         return this.odate;
     }
 
+    public void setOdate(Date odate) {
+        this.odate = odate;
+    }
+
     @Override
     public String toString() {
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-        String paidStatus = (this.paidDate == null) ? "Not Paid" : "Paid on " + sdf.format(this.paidDate);
+        String paidStatus = (this.paidDate == 0) ? "Not Paid" : "Paid on " + sdf.format(this.paidDate);
         return String.format("Booking - Train: %s | Passenger: %s | Date: %s | Paid: %s | Seats: %d",
                 this.tcode, this.pcode, sdf.format(this.odate), paidStatus, this.seat);
     }
+
 }
