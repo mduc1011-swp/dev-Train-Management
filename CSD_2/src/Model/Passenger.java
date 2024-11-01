@@ -5,13 +5,12 @@ package Model;
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-
-
 /**
  *
  * @author ASUS
  */
 public class Passenger extends Model {
+
     private String pcode;
     private String name;
     private String phone;
@@ -46,22 +45,19 @@ public class Passenger extends Model {
     }
 
     public void setPhone(String phone) {
-        if (phone.matches("\\d+")){ //xác định sđt chỉ chứa các chữ số
+        if (phone.matches("\\d+")) { //xác định sđt chỉ chứa các chữ số
             this.phone = phone;
         } else {
             throw new IllegalArgumentException("Phone is digit");
-        }    
+        }
     }
 
     @Override
     public String toString() {
         return "Pcode: " + pcode + ", Name: " + name + ", Phone: " + phone + '.';
     }
-    
-    public int compareTo(Passenger other) {
-        return this.pcode.compareTo(other.pcode);
-    }
-    
+
+    @Override
     public String getKey() {
         return pcode;
     }

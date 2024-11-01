@@ -4,9 +4,9 @@
  */
 package Body;
 
-import BSTree.*;
+import BSTree.BSTree;
+import BSTree.Node;
 import Model.Passenger;
-import Model.Train;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
@@ -28,7 +28,7 @@ public class PassengerManager {
         BufferedReader br = new BufferedReader(new FileReader(filepath));
         String line = br.readLine();
         String[] parts;
-        Train train = null;
+        Passenger passenger = null;
 
         while (line != null) {
             line = line.trim();
@@ -45,25 +45,19 @@ public class PassengerManager {
 
             try {
                 // Lấy thông tin và chuyển đổi kiểu dữ liệu
-                String tcode = parts[0].trim();
+                String pcode = parts[0].trim();
                 String name = parts[1].trim();
-                String dstation = parts[2].trim();
-                String astation = parts[3].trim();
-                double dtime = Double.parseDouble(parts[4].trim());
-                int seat = Integer.parseInt(parts[5].trim());
-                int booked = Integer.parseInt(parts[6].trim());
-                double atime = Double.parseDouble(parts[7].trim());
-
+                String phone = parts[2].trim();
                 // Kiểm tra các trường bắt buộc
-                if (tcode.isEmpty() || name.isEmpty() || dstation.isEmpty() || astation.isEmpty()) {
+                if (pcode.isEmpty() || name.isEmpty() || phone.isEmpty()) {
                     System.out.println("Invalid line (empty values): " + line);
                     line = br.readLine();
                     continue;
                 }
 
                 // Tạo đối tượng khach và thêm vào tree
-                train = new Train(tcode, name, dstation, astation, dtime, seat, booked, atime);
-                passengerTree.insert(train);
+                passenger = new Passenger(pcode, name, phone);
+                passengerTree.insert(passenger);
 
             } catch (NumberFormatException e) {
                 System.out.println("Invalid number format in line: " + line);
@@ -74,6 +68,13 @@ public class PassengerManager {
 
         br.close();
         System.out.println("Load successfully from " + filepath);
+    }
+
+    // 2.2 add passenger
+    public void addPassenger(String pcode, String name, String phone) {
+        Passenger passenger = new Passenger(pcode, name, phone);
+        passengerTree.insert(passenger);  // Them tau vao cay
+        System.out.println("Train added successfully: " + passenger);
     }
 
     //2.4 Save passenger tree to file by pre-order traversal

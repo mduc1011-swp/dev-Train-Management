@@ -4,12 +4,12 @@
  */
 package Model;
 
-
 /**
  *
  * @author phank
  */
-public class Train extends Model{
+public class Train extends Model {
+
     private String tcode;
     private String name;
     private String dstation;
@@ -18,7 +18,6 @@ public class Train extends Model{
     private int seat;
     private int booked;
     private double atime;
-
 
     public Train(String tcode, String name, String dstation, String astation, double dtime, int seat, int booked, double atime) {
         this.tcode = tcode;
@@ -30,6 +29,7 @@ public class Train extends Model{
         this.booked = booked;
         this.atime = atime;
     }
+
     public Train() {
     }
 
@@ -88,8 +88,9 @@ public class Train extends Model{
     public void setBooked(int booked) {
         this.booked = booked;
     }
-    public int getRemainSeat(){
-        return getSeat()-getBooked();
+
+    public int getRemainSeat() {
+        return getSeat() - getBooked();
     }
 
     public double getAtime() {
@@ -105,15 +106,9 @@ public class Train extends Model{
         return "Train{" + "tcode=" + tcode + ", name=" + name + ", dstation=" + dstation + ", astation=" + astation + ", dtime=" + dtime + ", seat=" + seat + ", booked=" + booked + ", atime=" + atime + '}';
     }
 
-    public int compareTo(Train other) {
-        return this.tcode.compareTo(other.tcode);
-    }
-    
-    
+    @Override
     public String getKey() {
         return tcode;
     }
-    
-    
-    
+
 }
