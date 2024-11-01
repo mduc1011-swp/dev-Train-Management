@@ -17,7 +17,6 @@ public class TrainNode {
 
     public TrainNode() {
     }
-
     public TrainNode(Train info, TrainNode left, TrainNode right) {
         this.info = info;
         this.left = left;

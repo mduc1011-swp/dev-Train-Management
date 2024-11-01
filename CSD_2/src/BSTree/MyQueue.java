@@ -14,36 +14,37 @@ import java.util.LinkedList;
  */
 public class MyQueue {
     
-    LinkedList<PassengerNode> queue;
+  
+    LinkedList<Object> head;
 
     public MyQueue() {
-        this.queue = new LinkedList<PassengerNode>();
+        head = new LinkedList<>();
     }
 
-    public void clear() {
-        this.queue.clear();
+    public void enqueue(Object obj) {
+        head.addLast(obj);
     }
 
     public boolean isEmpty() {
-        return this.queue.isEmpty();
+        return head.isEmpty();
     }
 
-    public void enqueue(PassengerNode x) {
-        this.queue.addLast(x);
-    }
-
-    public PassengerNode dequeue() {
+    public Object dequeue() {
         if (isEmpty()) {
             return null;
         }
-        PassengerNode p = this.queue.removeFirst();
-        return p;
+        return head.removeFirst();
     }
 
-    public PassengerNode front() {
+    public Object front() {
         if (isEmpty()) {
             return null;
         }
-        return this.queue.getFirst();
+        return head.getFirst();
     }
+
+    public void clear() {
+        head.clear();
+    }
+
 }

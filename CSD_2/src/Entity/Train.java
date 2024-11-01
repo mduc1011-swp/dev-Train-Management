@@ -100,6 +100,10 @@ public class Train {
     public String toString() {
         return "Train{" + "tcode=" + tcode + ", name=" + name + ", dstation=" + dstation + ", astation=" + astation + ", dtime=" + dtime + ", seat=" + seat + ", booked=" + booked + ", atime=" + atime + '}';
     }
+
+    public int compareTo(Train other) {
+        return this.tcode.compareTo(other.tcode);
+    }
     
     
     
