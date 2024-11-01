@@ -85,5 +85,6 @@ public class LinkedList<E extends Comparable<E>> {
             head = newNode;
         }
     }
+    // 3.6 
     
 }

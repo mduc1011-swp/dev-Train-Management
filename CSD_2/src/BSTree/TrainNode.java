@@ -27,4 +27,7 @@ public class TrainNode {
         info = x;
         left = right = null;
     }
+    public Train getInfo() {
+        return info;
+    }
 }
