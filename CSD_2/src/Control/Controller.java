@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import LinkedList.*;
 import BSTree.*;
+import Model.Booking;
 
 /**
  *
@@ -24,7 +25,7 @@ public class Controller {
     TrainManager tm = new TrainManager();
     PassengerManager pm = new PassengerManager();
     BookingManager bm = new BookingManager();
-    SimpleDateFormat dateFomate = new SimpleDateFormat("dd-MM-yyyy");
+    SimpleDateFormat dateFormate = new SimpleDateFormat("dd-MM-yyyy");
 //==============================================================================================================
 // 1. Train management
 //==============================================================================================================
@@ -61,26 +62,10 @@ public class Controller {
     }
 
     //1.4 save train tree to file by inorder
-    public void inOrderSave(Node node, BufferedWriter bw) throws IOException {
-        if (node == null) {
-            return;
-        }
-
-        inOrderSave(node.left, bw); // Traverse the left subtree first
-
-        Train train = (Train) node.info;
-        bw.write(train.getTcode() + "| " + train.getName() + "| " + train.getDstation()
-                + "| " + train.getAstation() + "| " + train.getDtime() + "| " + train.getSeat()
-                + "| " + train.getBooked() + "| " + train.getAtime());
-        bw.newLine(); // Visit the node and save it to the file
-
-        inOrderSave(node.right, bw); // Traverse the right subtree
-    }
-
     public void saveToFile(String filename) {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(filename))) {
-            Node root = null;
-            inOrderSave(root, bw); // Use inOrder traversal to save
+            Node root = null;  // Root of the tree should be properly initialized before calling this method
+            tm.inOrderSave(root, bw);  // Start in-order traversal and save process
             System.out.println("Data successfully saved to file " + filename);
         } catch (IOException e) {
             System.out.println("Error saving file: " + e.getMessage());
@@ -193,12 +178,66 @@ public class Controller {
             System.out.println(e.getMessage());
         }
     }
+
     // 3.2 Book train
-    public void bookTrain(String tcode, String pcode){
-        try{
-            boolean done = bm.bookRoom(tcode, pcode)
+    public void bookTrain(String tcode, String pcode) {
+        try {
+            boolean done = bm.bookTrain(tcode, pcode);
+            if (done) {
+                System.out.println("Train " + tcode + " booked successfully for passenger " + pcode + ".");
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
         }
     }
-    
+
+    // 3.3 display data
+    public void displayBookings(LinkedList bookings) {
+        LL_Node current = bookings.getFirst(); // get the first node of the booking list
+        Booking b;
+        String paidDate;
+
+        //Header for display
+        System.out.println(String.format("%-10s| %-10s| %-20s| %-20s| %-6s", "TRAIN CODE", "PASSENGER CODE", "BOOKED DATE", "STATUS", "SEAT"));
+        System.out.println("------------------------------------------------------------------------------------------------------------------------------------------");
+
+        //traversal throw the booking list
+        while (current != null) {
+            b = (Booking) current.getInfo();
+            try {
+                paidDate = dateFormate.format(b.getPaidDate());
+            } catch (Exception e) {
+                paidDate = "null";
+            }
+            //print booking details using the existing toScreen method or format it directly
+            System.out.printf(b.toString());
+            current = bm.getBookingList().getNext(current);
+        }
+        System.out.println();
+    }
+
+    public void displayAllBookigs() {
+        displayBookings(bm.getBookingList());
+    }
+
+    //3.4 save booking list to file
+    public void writeFileBook() {
+        try {
+            bm.saveToFile("bookings.txt");
+            System.out.println("Save successfully!");
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    //3.5 sort by tcode and pcode
+    public void sortBookings() {
+        try {
+            bm.sortBookings();
+            System.out.println("Sort successfully!");
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
 
 }

@@ -3,7 +3,7 @@ package LinkedList;
 public class LinkedList {
 
     LL_Node head;
-    Node tail;
+    LL_Node tail;
 
     public LinkedList() {
         this.head = null;

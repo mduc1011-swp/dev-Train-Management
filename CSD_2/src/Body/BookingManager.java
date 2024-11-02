@@ -87,6 +87,7 @@ public class BookingManager {
     }
 
     //3.4 Save booking list to file 
+    
     public void saveToFile(String filepath) throws IOException {
         BufferedWriter bw = new BufferedWriter(new FileWriter(filepath));
         LL_Node p = bookingList.getFirst();
@@ -139,7 +140,62 @@ public class BookingManager {
         return false; // khach chua dat tau
     }
 
-    //3.6 Leave the train
+    // 3.5 Sort bookings by `tcode` first and then by `pcode`
+    public void sortBookings() {
+        if (head == null) {
+            return;  // No sorting needed for an empty list
+        }
+
+        LL_Node current, index;
+        Booking temp;
+
+        // Perform a bubble sort to sort by `tcode` and then `pcode`
+        for (current = head; current.next != null; current = current.next) {
+            for (index = current.next; index != null; index = index.next) {
+                // Cast info to Booking to access its properties
+                Booking currentBooking = (Booking) current.info;
+                Booking indexBooking = (Booking) index.info;
+
+                // Compare based on `tcode` and `pcode`
+                if (currentBooking.getTcode().compareTo(indexBooking.getTcode()) > 0
+                        || (currentBooking.getTcode().equals(indexBooking.getTcode())
+                        && currentBooking.getPcode().compareTo(indexBooking.getPcode()) > 0)) {
+
+                    // Swap the bookings
+                    temp = currentBooking;
+                    current.info = indexBooking;
+                    index.info = temp;
+                }
+            }
+        }
+        System.out.println("Sort by tcode and pcode complete!");
+    }
+
+    //3.6 pay booking by tcode & pcode
+    public boolean paidBooking(String tcode, String pcode) throws Exception {
+        // Iterate over the booking list to find the relevant booking
+        LL_Node current = head;
+        while (current != null) {
+            Booking booking = (Booking) current.getInfo();  // Cast to Booking to access properties
+
+            // Check if the tcode and pcode match, and if the booking is not already paid
+            if (booking.getTcode().equals(tcode) && booking.getPcode().equals(pcode)) {
+                if (booking.getState() != 1) {  // Check if booking is unpaid
+                    booking.setState(1);  // Mark as paid
+                    System.out.println("Booking has been marked as paid.");
+                    return true;  // Indicate success
+                } else {
+                    throw new Exception("Booking is already paid.");
+                }
+            }
+            current = current.next;  // Move to the next node in the list
+        }
+
+        // If no booking is found with the given tcode and pcode
+        throw new Exception("Booking not found.");
+    }
+
+    //function Leave the train
     public boolean leaveTrain(String tcode, String pcode) {
         LL_Node p = bookingList.getFirst();
         Booking b;

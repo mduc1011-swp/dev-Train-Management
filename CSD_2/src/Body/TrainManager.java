@@ -88,6 +88,26 @@ public class TrainManager {
         br.close();
     }
 
+    //1.4 save to file by in order
+    public void inOrderSave(Node node, BufferedWriter bw) throws IOException {
+        if (node == null) {
+            return;  // Base case: empty node, nothing to save
+        }
+
+        // Traverse the left subtree
+        inOrderSave(node.left, bw);
+
+        // Process the current node (write train info to file)
+        Train train = (Train) node.info;
+        bw.write(train.getTcode() + "| " + train.getName() + "| " + train.getDstation()
+                + "| " + train.getAstation() + "| " + train.getDtime() + "| " + train.getSeat()
+                + "| " + train.getBooked() + "| " + train.getAtime());
+        bw.newLine();
+
+        // Traverse the right subtree
+        inOrderSave(node.right, bw);
+    }
+
     //1.6 Delete by tcode by copying
     public void deleteTrainByCopying(String tcode) {
         Node trainNode = trainTree.search(tcode);
