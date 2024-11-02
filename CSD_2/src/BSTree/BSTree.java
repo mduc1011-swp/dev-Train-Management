@@ -26,7 +26,6 @@ public class BSTree {
         return root;
     }
 
-
     public void insert(Model x) {
         Node p = new Node(x);
         Node f = null, q = root;
@@ -57,8 +56,8 @@ public class BSTree {
             }
         }
     }
-    
-        //inorder a tree
+
+    //inorder a tree
     public void inOrder(Node p) {
         if (p == null) {
             return;
@@ -67,11 +66,32 @@ public class BSTree {
         visit(p);
         inOrder(p.right);
     }
+    // preorder a tree
+
+    public void preOrder(Node p) {
+        if (p == null) {
+            return;
+        }
+        visit(p);
+        preOrder(p.left);
+        preOrder(p.right);
+    }
+
+    // postorder a tree
+    public void postOrder(Node p) {
+        if (p == null) {
+            return;
+        }
+        postOrder(p.left);
+        postOrder(p.right);
+        visit(p);
+    }
 
     private void visit(Node p) {
         Model m = (Model) p.info;
         System.out.println(m.toString());
     }
+
     // Xóa Node bằng cách gộp (Merging)
     public void deleteNodeByMerging(Node p) {
         Node f = findParent(p);  // Tìm Node cha
@@ -120,12 +140,15 @@ public class BSTree {
 
     // Thay thế con của Node f
     private void replaceChild(Node f, Node p, Node newChild) {
-        if (f == null) root = newChild;
-        else if (f.left == p) f.left = newChild;
-        else f.right = newChild;
+        if (f == null) {
+            root = newChild;
+        } else if (f.left == p) {
+            f.left = newChild;
+        } else {
+            f.right = newChild;
+        }
     }
 
-    
     // Tìm kiếm phương thức đã tồn tại
     public Node search(String key) {
         return search(root, key);

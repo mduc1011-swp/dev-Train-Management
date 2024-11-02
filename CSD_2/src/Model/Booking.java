@@ -16,16 +16,18 @@ public class Booking {
     private String tcode;
     private String pcode;
     private Date odate;
-    private int paidDate;
+    private Date paidDate;
     private int seat;
+    private int state;
     SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
 
-    public Booking(String tcode, String pcode, int seat) {
+    public Booking(String tcode, String pcode, Date odate, Date paidDate, int seat, int state) {
         this.tcode = tcode;
         this.pcode = pcode;
-        this.seat = seat;
-        this.odate = new Date();
+        this.odate = odate;
         this.paidDate = paidDate;
+        this.seat = seat;
+        this.state = state;
     }
 
     public String getTcode() {
@@ -36,16 +38,15 @@ public class Booking {
         return this.pcode;
     }
 
-    // Check whether paidDate has been paid or not (if paidDate is different from null, it means paid)
-    public boolean isPaid() {
-        return this.paidDate != 0;
+    public Date isPaid() {
+        return this.paidDate = null;
     }
 
-    public int getPaidDate() {
+    public Date getPaidDate() {
         return this.paidDate;
     }
 
-    public void setPaidDate(int paidDate) {
+    public void setPaidDate(Date paidDate) {
         this.paidDate = paidDate;
     }
 
@@ -61,11 +62,19 @@ public class Booking {
         this.odate = odate;
     }
 
+    public int getState() {
+        return state;
+    }
+
+    public void setState(int state) {
+        this.state = state;
+    }
+
     @Override
     public String toString() {
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-        String paidStatus = (this.paidDate == 0) ? "Not Paid" : "Paid on " + sdf.format(this.paidDate);
-        return String.format("Booking - Train: %s | Passenger: %s | Date: %s | Paid: %s | Seats: %d",
+        String paidStatus = (this.state == 0) ? "Not Paid" : "Paid on " + sdf.format(this.paidDate);
+        return String.format("Booking - Train: %s | Passenger: %s | Date: %s | State: %s | Seats: %d",
                 this.tcode, this.pcode, sdf.format(this.odate), paidStatus, this.seat);
     }
 

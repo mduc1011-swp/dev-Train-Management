@@ -11,84 +11,56 @@ import java.util.Scanner;
  * @author phank
  */
 public class validator {
-     private static final Scanner sc = new Scanner(System.in);
 
-    public static int getInt(String message, String error,
-            String invalid, int min, int max) {
-        do {
-            System.out.print(message);
+    private static final Scanner sc = new Scanner(System.in);
+
+    public static int getInt(String message, int min, int max) {
+        while (true) {
             try {
-                int num = Integer.parseInt(sc.nextLine());
-                if (num >= min && num <= max) {
-                    return num;
+                System.out.print(message);
+                int value = Integer.parseInt(sc.nextLine().trim());
+                if (value >= min && value <= max) {
+                    return value;
+                } else {
+                    System.out.println("Invalid input. Please enter a value between " + min + " and " + max + ".");
                 }
-                System.out.println(error);
             } catch (NumberFormatException e) {
-                System.out.println(invalid);
+                System.out.println("Invalid input. Please enter a valid number.");
             }
-        } while (true);
+        }
 
     }
 
-    public static double getDouble(String message, String error,
-            String invalid, double min, double max) {
-        do {
-            System.out.print(message);
+    public static double getDouble(String message, double min, double max) {
+        while (true) {
             try {
-                double num = Double.parseDouble(sc.nextLine());
-                if (num >= min && num <= max) {
-                    return num;
+                System.out.print(message);
+                double value = Double.parseDouble(sc.nextLine().trim());
+                if (value >= min && value <= max) {
+                    return value;
+                } else {
+                    System.out.println("Invalid input. Please enter a value between " + min + " and " + max + ".");
                 }
-                System.out.println(error);
             } catch (NumberFormatException e) {
-                System.out.println(invalid);
+                System.out.println("Invalid input. Please enter a valid number.");
             }
-        } while (true);
+        }
 
     }
 
-    public static int getIntCond(int min, int max) {
-        int n = getInt("", "err", "invalid", Integer.MIN_VALUE, Integer.MAX_VALUE);
-        if (n < min) {
-            System.out.println("inp must be >= " + min);
-            return getIntCond(min, max);
-        }
-        if (n > max) {
-            System.out.println("inp must be <=" + max);
-            return getIntCond(min, max);
-        }
-        return n;
-    }
-
-    public static double getDoubleCond(double min, double max) {
-        double n = getDouble("", "err",
-                "invalid", Double.MIN_VALUE, Double.MAX_VALUE);
-        if (n < min) {
-            System.out.println("inp must be >= " + min);
-            return getDoubleCond(min, max);
-        }
-        if (n > max) {
-            System.out.println("inp must be <= " + max);
-            return getDoubleCond(min, max);
-        }
-        return n;
-    }
-
-    public static String getString(String messageInfo,
-            String messageError, String invalid,
-            final String REGEX) {
-        do {
+    public static String getString(String messageInfo) {
+        while (true) {
             System.out.print(messageInfo);
-            try {
-                String str = sc.nextLine();
-                if (str.matches(REGEX)) {
-                    return str;
-                }
-                System.err.println(messageError);
-            } catch (Exception e) {
-                System.err.println(invalid);
+
+            String str = sc.nextLine().trim();
+            if (str.matches("^[a-zA-Z0-9\\s]+$")) {
+                return str;
+            } else {
+
+                System.err.println("Invalid input! pleas input only alphanumeric and spaces");
             }
-        } while (true);
+
+        }
     }
 
 }

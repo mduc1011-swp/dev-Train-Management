@@ -13,6 +13,7 @@ import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -22,7 +23,7 @@ import java.util.Date;
  */
 public class BookingManager {
 
-    private Node head; // Start of the linked list
+    private LL_Node head; // Start of the linked list
     private LinkedList bookingList;
     SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
 
@@ -39,12 +40,12 @@ public class BookingManager {
 
     // Method to add a booking to the end of the list
     public void addBookingToEnd(Booking booking) {
-        Node newNode = new Node(booking); // Create a new node with the booking
+        LL_Node newNode = new LL_Node(booking); // Create a new node with the booking
 
         if (head == null) {
             head = newNode; // If the list is empty, set head to the new node
         } else {
-            Node current = head; // Start at the head
+            LL_Node current = head; // Start at the head
             while (current.next != null) {
                 current = current.next; // Traverse to the end of the list
             }
@@ -53,29 +54,42 @@ public class BookingManager {
     }
 
     // 3.1. Load data from file
-    public void loadFromFile(String filename) {
-        try (BufferedReader br = new BufferedReader(new FileReader(filename))) {
-            String line;
-            while ((line = br.readLine()) != null) {
-                String[] parts = line.split(" ");
-                String tcode = parts[0];
-                String pcode = parts[1];
-                int seat = Integer.parseInt(parts[2]);
-                int paid = Integer.parseInt(parts[3]);
-                Booking booking = new Booking(tcode, pcode, seat);
-//                booking.setPaidDate();
-                addBookingToEnd(booking);
+    public void loadFile(String filepath) throws IOException {
+        BufferedReader bf = new BufferedReader(new FileReader(filepath));
+        String line = bf.readLine();
+        String[] info;
+        Booking booking = null;
+        Date odate, paiddate;
+
+        while (line != null) {
+            try {
+                info = line.split("\\|\\s*");
+                String bcode = info[0];
+                String pcode = info[1];
+
+                odate = formatter.parse(info[2]);
+                paiddate = null;
+                if (info[3].equalsIgnoreCase("null") || info[3].isEmpty()) {
+                } else {
+                    paiddate = formatter.parse(info[3]);
+                }
+
+                int seat = Integer.parseInt(info[4]);
+                int state = Integer.parseInt(info[5]);
+
+                bookingList.addLast(new Booking(pcode, pcode, odate, paiddate, seat, state));
+            } catch (ParseException ex) {
+                System.out.println(ex.getMessage());
             }
-            System.out.println("Load successfully " + filename);
-        } catch (IOException e) {
-            System.out.println("Load error " + e.getMessage());
+            line = bf.readLine();
         }
+        bf.close();
     }
 
     //3.4 Save booking list to file 
     public void saveToFile(String filepath) throws IOException {
         BufferedWriter bw = new BufferedWriter(new FileWriter(filepath));
-        Node p = bookingList.getFirst();
+        LL_Node p = bookingList.getFirst();
         while (p != null) {
             bw.write(p.getInfo().toString());
             bw.newLine();
@@ -85,7 +99,7 @@ public class BookingManager {
     }
 
     // 3.2 Book the train
-    public boolean bookRoom(String tcode, String pcode) throws Exception {
+    public boolean bookTrain(String tcode, String pcode) throws Exception {
         Train train = tm.getTrainByCode(tcode);
         if (train == null) {
             throw new Exception("Train does not exist.");
@@ -105,7 +119,7 @@ public class BookingManager {
         }
 
         // Tạo booking mới
-        Booking newBooking = new Booking(tcode, pcode, 0);
+        Booking newBooking = new Booking(tcode, pcode, new Date(), null, 1, 0);
         bookingList.addFirst(newBooking);  // Thêm vào đầu danh sách
         train.setSeat(train.getRemainSeat() - 1);  // Giảm số ghe trống
 
@@ -114,10 +128,10 @@ public class BookingManager {
 
     // Phương thức kiểm tra xem khach da dat tau chua
     private boolean isPassengerBook(String pcode) {
-        Node current = bookingList.getFirst();
+        LL_Node current = bookingList.getFirst();
         while (current != null) {
             Booking booking = (Booking) current.getInfo();
-            if (booking.getPcode().equals(pcode) && booking.getPaidDate() == 1) {
+            if (booking.getPcode().equals(pcode) && booking.getState() == 1) {
                 return true; // khach da dat tau
             }
             current = bookingList.getNext(current);
@@ -127,19 +141,40 @@ public class BookingManager {
 
     //3.6 Leave the train
     public boolean leaveTrain(String tcode, String pcode) {
-        Node p = bookingList.getFirst();
+        LL_Node p = bookingList.getFirst();
         Booking b;
 
         while (p != null) {
             b = (Booking) p.getInfo();
-            if (b.getTcode().equals(tcode) && b.getPcode().equals(pcode) && b.getPaidDate() == 1) {
-                b.setPaidDate(0);
+            if (b.getTcode().equals(tcode) && b.getPcode().equals(pcode) && b.getState() == 1) {
+                b.setState(0);
                 b.setOdate(new Date());
                 return true;
             }
             p = bookingList.getNext(p);
         }
         return false;
+    }
+
+    // function for 1.6 & 7
+    // delete booking by tcode and return the list of deleted passenger
+    public LinkedList deleteBookingByTrainCode(String tcode) {
+        LL_Node current = bookingList.getFirst();
+        LinkedList passengerToMove = new LinkedList(); // list contains passenger code
+
+        // find and delete all booking have corresponding tcode
+        while (current != null) {
+            Booking booking = (Booking) current.getInfo();
+            if (booking.getTcode().equals(tcode)) {
+                passengerToMove.addLast(booking.getPcode()); // add passenger to the delete list
+                LL_Node nodeToDelete = current; // save node to be delete
+                current = bookingList.getNext(nodeToDelete); // go to next node
+                bookingList.delete(nodeToDelete);
+            } else {
+                current = bookingList.getNext(current); // nect node
+            }
+        }
+        return passengerToMove;
     }
 
 }

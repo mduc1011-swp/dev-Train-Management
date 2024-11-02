@@ -2,7 +2,8 @@ package LinkedList;
 
 public class LinkedList {
 
-    Node head, tail;
+    LL_Node head;
+    Node tail;
 
     public LinkedList() {
         this.head = null;
@@ -17,11 +18,11 @@ public class LinkedList {
         head = tail = null;
     }
 
-    public Node getFirst() {
+    public LL_Node getFirst() {
         return head;
     }
 
-    public Node getLast() {
+    public LL_Node getLast() {
         return tail;
     }
 
@@ -29,7 +30,7 @@ public class LinkedList {
         if (isEmpty()) {
             return 0;
         } else {
-            Node p = head;
+            LL_Node p = head;
             int size = 0;
             while (p != null) {
                 size += 1;
@@ -39,15 +40,15 @@ public class LinkedList {
         }
     }
 
-    public Node getNext(Node p) {
+    public LL_Node getNext(LL_Node p) {
         if (p == null || p.next == null) {
             return null;
         }
         return p.next;
     }
 
-    public Node getPrevious(Node p) {
-        Node curr = head;
+    public LL_Node getPrevious(LL_Node p) {
+        LL_Node curr = head;
         while (curr != null && curr.next != p) {
             curr = curr.next;
         }
@@ -55,7 +56,7 @@ public class LinkedList {
     }
 
     public void addLast(Object o) {
-        Node newNode = new Node(o);
+        LL_Node newNode = new LL_Node(o);
         if (isEmpty()) {
             head = tail = newNode;
         } else {
@@ -65,7 +66,7 @@ public class LinkedList {
     }
 
     public void addFirst(Object o) {
-        Node newNode = new Node(o);
+        LL_Node newNode = new LL_Node(o);
         if (isEmpty()) {
             head = tail = newNode;
             } else {
@@ -74,8 +75,8 @@ public class LinkedList {
         }
     }
 
-    public Node getByIndex(int index) {
-        Node a = head;
+    public LL_Node getByIndex(int index) {
+        LL_Node a = head;
         int cnt = 0;
         while (a != null && cnt != index) {
             cnt++;
@@ -90,9 +91,9 @@ public class LinkedList {
         } else if (index == getSize() - 1) {
             addLast(o);
         } else {
-            Node newNode = new Node(o);
-            Node prev = getByIndex(index - 1);
-            Node curr = getByIndex(index);
+            LL_Node newNode = new LL_Node(o);
+            LL_Node prev = getByIndex(index - 1);
+            LL_Node curr = getByIndex(index);
             prev.next = newNode;
             newNode.next = curr;
         }
@@ -104,8 +105,8 @@ public class LinkedList {
         } else if (k == getSize() - 1) {
             removeLast();
         } else {
-            Node prev = getByIndex(k - 1);
-            Node curr = getByIndex(k);
+            LL_Node prev = getByIndex(k - 1);
+            LL_Node curr = getByIndex(k);
             prev.next = curr.next;
             curr.next = null;
         }
@@ -121,10 +122,10 @@ public class LinkedList {
         if (tail.info.equals(o)) {
             removeLast();
         } else {
-            Node p = head;
+            LL_Node p = head;
             while (p != null) {
                 if (p.info.equals(o)) {
-                    Node prev = getPrevious(p);
+                    LL_Node prev = getPrevious(p);
                     prev.next = p.next;
                     p.next = null;
                 }
@@ -137,7 +138,7 @@ public class LinkedList {
         if (head == tail) {
             head = tail = null;
         } else {
-            Node tmp = head.next;
+            LL_Node tmp = head.next;
             head.next = null;
             head = tmp;
         }
@@ -147,27 +148,27 @@ public class LinkedList {
         if (head == tail) {
             head = tail = null;
         } else {
-            Node temp = getPrevious(tail);
+            LL_Node temp = getPrevious(tail);
             temp.next = null;
             tail = temp;
         }
     }
 
-    public void swap(Node p, Node q) {
+    public void swap(LL_Node p, LL_Node q) {
         Object tmp = p.info;
         p.info = q.info;
         q.info = tmp;
     }
 
     // Thêm hàm setFirst
-    public void setFirst(Node newHead) {
+    public void setFirst(LL_Node newHead) {
         this.head = newHead; // Cập nhật head thành newHead
         if (newHead == null) {
             tail = null; // Nếu newHead là null, cũng cần thiết lập tail thành null
         }
     }
     // Phương thức xóa nút
-    public void delete(Node node) {
+    public void delete(LL_Node node) {
         if (head == null || node == null) return;
 
         // Nếu nút đầu tiên cần xóa
@@ -177,7 +178,7 @@ public class LinkedList {
         }
 
         // Tìm nút trước nút cần xóa
-        Node current = head;
+        LL_Node current = head;
         while (current.next != null && current.next != node) {
             current = current.next;
         }

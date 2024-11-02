@@ -9,20 +9,20 @@ package LinkedList;
  *
  * @author phank
  */
-public class Node {
+public class LL_Node {
 
     public Object info;
-    public Node next;
+    public LL_Node next;
 
-    public Node() {
+    public LL_Node() {
     }
 
-    public Node(Object info) {
+    public LL_Node(Object info) {
         this.info = info;
         this.next = null;
     }
 
-    public Node(Object info, Node next) {
+    public LL_Node(Object info, LL_Node next) {
         this.info = info;
         this.next = next;
     }
@@ -31,11 +31,11 @@ public class Node {
         return info;
     }
 
-    public void setNext(Node next) {
+    public void setNext(LL_Node next) {
         this.next = next;
     }
 
-    public Node getNext(Node p) {
+    public LL_Node getNext(LL_Node p) {
         if (p == null || p.next == null) {
             return null;
         }

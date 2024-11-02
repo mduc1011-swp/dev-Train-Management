@@ -19,7 +19,7 @@ public class Train extends Model {
     private int booked;
     private double atime;
 
-    public Train(String tcode, String name, String dstation, String astation, double dtime, int seat, int booked, double atime) {
+    public Train(String tcode, String name, String dstation, String astation, double dtime, double atime, int seat, int booked) {
         this.tcode = tcode;
         this.name = name;
         this.dstation = dstation;

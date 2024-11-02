@@ -23,6 +23,10 @@ public class PassengerManager {
     BSTree passengerTree;
     Node root;
 
+    public BSTree getPassengerTree() {
+        return passengerTree;
+    }
+
     // 2.1 load from file
     public void loadFromFile(String filepath) throws FileNotFoundException, IOException {
         BufferedReader br = new BufferedReader(new FileReader(filepath));
