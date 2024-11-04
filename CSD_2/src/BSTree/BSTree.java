@@ -150,18 +150,20 @@ public class BSTree {
     }
 
     // Tìm kiếm phương thức đã tồn tại
-    public Node search(String key) {
-        return search(root, key);
-    }
+// Tìm kiếm phương thức đã tồn tại
+public Node search(String key) {
+    return search(root, key);  // Gọi phương thức search đệ quy
+}
 
-    private Node search(Node node, String key) {
-        if (node == null || key.equals(node.info.getKey())) {
-            return node;
-        }
-        if (key.compareTo(node.info.getKey()) < 0) {
-            return search(node.left, key);
-        } else {
-            return search(node.right, key);
-        }
+private Node search(Node node, String key) {
+    if (node == null || key.equals(node.info.getKey())) {
+        return node; // Nếu nút là null hoặc tìm thấy, trả về nút
     }
+    if (key.compareTo(node.info.getKey()) < 0) {
+        return search(node.left, key); // Tìm kiếm bên trái
+    } else {
+        return search(node.right, key); // Tìm kiếm bên phải
+    }
+}
+
 }

@@ -1,5 +1,7 @@
 package LinkedList;
 
+import Model.Booking;
+
 public class LinkedList {
 
     LL_Node head;
@@ -187,6 +189,10 @@ public class LinkedList {
         if (current.next == node) {
             current.next = node.next; // Bỏ qua nút cần xóa
         }
+    }
+
+    public void add(Booking booking) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
     
 }

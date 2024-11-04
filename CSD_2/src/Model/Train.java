@@ -106,9 +106,13 @@ public class Train extends Model {
         return "Train{" + "tcode=" + tcode + ", name=" + name + ", dstation=" + dstation + ", astation=" + astation + ", dtime=" + dtime + ", seat=" + seat + ", booked=" + booked + ", atime=" + atime + '}';
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
-    public String getKey() {
-        return tcode;
-    }
 
+public String getKey() {
+    return this.tcode; // giả sử `tcode` là trường mã của `Train`
+}
 }

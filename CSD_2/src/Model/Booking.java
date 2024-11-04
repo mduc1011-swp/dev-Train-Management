@@ -78,4 +78,12 @@ public class Booking {
                 this.tcode, this.pcode, sdf.format(this.odate), paidStatus, this.seat);
     }
 
+    public int getPaid() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    public void setPaid(int i) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
 }
