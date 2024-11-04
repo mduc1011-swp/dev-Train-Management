@@ -7,9 +7,11 @@ package Body;
 import BSTree.BSTree;
 import BSTree.Node;
 import Model.Booking;
+import Model.BookingList;
 import Model.BookingNode;
 import Model.Passenger;
 import Model.Train;
+import Model.TrainTree;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
@@ -116,28 +118,37 @@ public class PassengerManager {
         return null; // Trả về null nếu không tìm thấy
     }
     public void searchTrainsByPcode(String pcode) {
-    Node passenger = passengerTree.search(pcode); // Tìm hành khách theo pcode
-    if (passenger != null) {
-        System.out.println("Hành khách tìm thấy: " + passenger);
-        
-        // Duyệt qua danh sách đặt chỗ
-        BookingNode current; // Lấy đầu của danh sách đặt chỗ
-        current = bookingList.getHead();
-        boolean found = false;
+    // Tìm hành khách bằng pcode
+    Node passenger = passengerTree.search(pcode);
+    
+    if (passenger == null) {
+        System.out.println("Passenger not found.");
+        return;
+    }
 
-        while (current != null) {
-            if (current.getBooking().getPcode().equals(pcode)) {
-                System.out.println("Tàu đã đặt: " + trainTree.search(current.getBooking().getTcode())); // Tìm tàu theo tcode
+    System.out.println("Passenger found: " + passenger);
+
+    // Tìm kiếm trong danh sách đặt chỗ
+    BookingList BookingList = new BookingList(); // Tạo một thể hiện của BookingList
+    BookingNode current = BookingList.getHead();
+    boolean found = false;
+
+    while (current != null) {
+        Booking booking = current.getBooking();
+        if (booking.getPcode().equals(pcode)) {
+            // Tìm chuyến tàu theo tcode từ booking
+            TrainTree TrainTree = new TrainTree();
+            Train train = TrainTree.search(booking.getTcode());
+            if (train != null) {
+                System.out.println("Train found: " + train);
                 found = true;
             }
-            current = current.getNext(); // Chuyển đến phần tử tiếp theo
         }
+        current = current.getNext();
+    }
 
-        if (!found) {
-            System.out.println("Không có tàu nào được đặt bởi hành khách này.");
-        }
-    } else {
-        System.out.println("Không tìm thấy hành khách.");
+    if (!found) {
+        System.out.println("No trains found for this passenger.");
     }
 }
 }

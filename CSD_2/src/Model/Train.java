@@ -115,4 +115,27 @@ public class Train extends Model {
 public String getKey() {
     return this.tcode; // giả sử `tcode` là trường mã của `Train`
 }
+public class TrainBSTree {
+    private TrainNode root;
+
+    public Train search(String tcode) {
+        return searchRec(root, tcode);
+    }
+
+    private Train searchRec(TrainNode node, String tcode) {
+        // Nếu nút hiện tại là null hoặc mã tàu đã được tìm thấy
+        if (node == null || node.getTrain().getTcode().equals(tcode)) {
+            return node != null ? node.getTrain() : null;
+        }
+
+        // Nếu mã tàu nhỏ hơn mã hiện tại, tìm ở bên trái
+        if (tcode.compareTo(node.getTrain().getTcode()) < 0) {
+            return searchRec(node.getLeft(), tcode);
+        }
+
+        // Nếu mã tàu lớn hơn mã hiện tại, tìm ở bên phải
+        return searchRec(node.getRight(), tcode);
+    }
+}
+
 }

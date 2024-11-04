@@ -6,6 +6,7 @@ package Body;
 
 import LinkedList.*;
 import Model.Booking;
+import Model.BookingNode;
 import Model.Passenger;
 import Model.Train;
 import java.io.BufferedReader;
@@ -232,5 +233,30 @@ public class BookingManager {
         }
         return passengerToMove;
     }
+public void payBooking(String tcode, String pcode) {
+    BookingNode current = bookingList.getHead();
+    boolean found = false;
+
+    while (current != null) {
+        Booking booking = current.getBooking();
+        if (booking.getTcode().equals(tcode) && booking.getPcode().equals(pcode)) {
+            found = true;
+            if (booking.getState() == 1) {
+                System.out.println("Đặt chỗ đã được thanh toán.");
+                return; // Đã thanh toán rồi
+            }
+            // Cập nhật trạng thái thanh toán
+            booking.setState(1); // Đặt trạng thái là đã thanh toán
+            booking.setPaidDate(new Date()); // Cập nhật ngày thanh toán
+            System.out.println("Thanh toán thành công cho đặt chỗ.");
+            return;
+        }
+        current = current.getNext();
+    }
+
+    if (!found) {
+        System.out.println("Không tìm thấy đặt chỗ cho mã tàu và mã hành khách này.");
+    }
+}
 
 }

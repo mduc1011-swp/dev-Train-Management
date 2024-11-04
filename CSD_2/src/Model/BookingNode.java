@@ -8,6 +8,17 @@ package Model;
  *
  * @author Admin
  */
+
 public class BookingNode {
-    
+    private Booking booking;
+    private BookingNode next; // Liên kết đến nút tiếp theo
+
+    public BookingNode(Booking booking) {
+        this.booking = booking;
+        this.next = null;
+    }
+
+    public Booking getBooking() { return booking; }
+    public BookingNode getNext() { return next; }
+    public void setNext(BookingNode next) { this.next = next; }
 }

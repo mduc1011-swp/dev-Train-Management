@@ -1,6 +1,7 @@
 package LinkedList;
 
 import Model.Booking;
+import Model.BookingNode;
 
 public class LinkedList {
 
@@ -192,6 +193,10 @@ public class LinkedList {
     }
 
     public void add(Booking booking) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    public BookingNode getHead() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
     
