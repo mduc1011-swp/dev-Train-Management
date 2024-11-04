@@ -110,4 +110,24 @@ public class PassengerManager {
         }
         return null; // Trả về null nếu không tìm thấy
     }
+    // 2.8 - Tìm kiếm các chuyến tàu dựa trên mã khách hàng
+    public void searchTrainsByPassengerCode(String pcode) {
+        Passenger passenger = passengerTree.search(new Passenger(pcode, "", ""));
+        if (passenger == null) {
+            System.out.println("Không tìm thấy hành khách với mã " + pcode);
+            return;
+        }
+        System.out.println("Các chuyến tàu mà hành khách đã đặt:");
+        boolean found = false;
+        for (Booking booking : bookingList) {
+            if (booking.getPcode().equals(pcode)) {
+                Train train = trainTree.search(new Train(booking.getTcode(), "", "", "", 0, 0, 0, 0));
+                if (train != null) {
+                    System.out.println(train);
+                    found = true;
+                }
+            }
+        }
+        if (!found) System.out.println("Không có chuyến tàu nào được đặt bởi hành khách này.");
+    }
 }
